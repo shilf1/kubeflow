@@ -14,7 +14,7 @@ def sheum_pipeline():
         arguments=[
             '--data_path', './orig_iris.csv'
         ],
-        file_outputs={'m_iris' : '/modified_iris.csv'}
+        file_outputs={'m_iris' : '/m_iris.csv'}
     )
 
     ml = dsl.ContainerOp(
