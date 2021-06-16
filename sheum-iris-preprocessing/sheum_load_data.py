@@ -2,12 +2,9 @@ import pandas as pd
 import argparse
 import sys
 
-#import time
-
 if __name__ == "__main__":
-    print("[sheum] start python code 0.9\n")
+    print("[sheum] start python code 1.0\n")
     print(sys.version)
-#    time.sleep(1800) 
     
     argument_parser = argparse.ArgumentParser()
 
@@ -19,10 +16,10 @@ if __name__ == "__main__":
     args = argument_parser.parse_args()
     data = pd.read_csv(args.data_path)
     print("[sheum] print data.shape\n")
-    print(data.shape)
+    print("[sheum] data.shape: {}\n".format(data.shape))
+    print("[sheum] data.head: {}\n".format(data.head))
 
-    print("[sheum] data.to_csv m_iris.csv\n")
+    print("\n[sheum] data.to_csv m_iris.csv\n")
 
     data.to_csv('/m_iris.csv', index=False)
 
-#    time.sleep(1800) 
