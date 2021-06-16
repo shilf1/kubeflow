@@ -10,7 +10,7 @@ from kfp import dsl
 def sheum_pipeline():
     mypreprocessing = dsl.ContainerOp(
         name="load iris data pipeline",
-        image="shilf1/sheum-iris-preprocess:latest",
+        image="shilf1/sheum-iris-preprocess:0.1",
         arguments=[
             '--data_path', './orig_iris.csv'
         ],
@@ -19,7 +19,7 @@ def sheum_pipeline():
 
     ml = dsl.ContainerOp(
         name="training pipeline",
-        image="shilf1/sheum-iris-train:latest",
+        image="shilf1/sheum-iris-train:0.1",
         arguments=[
             '--data', mypreprocessing.outputs['m_iris']
         ]
