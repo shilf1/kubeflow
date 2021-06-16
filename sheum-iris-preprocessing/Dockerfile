@@ -3,5 +3,5 @@ ENV PYTHONUNBUFFERED 1
 RUN mkdir /code
 WORKDIR /code
 COPY . /code/
-RUN pip install -r requirements.txt
-ENTRYPOINT ["python", "load_data.py"]
+RUN pip3 install -r requirements.txt
+ENTRYPOINT ["python", "sheum_load_data.py"]

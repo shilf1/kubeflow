@@ -1,8 +1,11 @@
 import pandas as pd
 import argparse
 
+#import time
 
 if __name__ == "__main__":
+
+#    time.sleep(1800) 
     
     argument_parser = argparse.ArgumentParser()
 
@@ -19,3 +22,5 @@ if __name__ == "__main__":
     print("[sheum] data.to_csv m_iris.csv\n")
 
     data.to_csv('/m_iris.csv', index=False)
+
+#    time.sleep(1800) 
