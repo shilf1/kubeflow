@@ -1,0 +1,32 @@
+import kfp
+import kfp.components as comp
+from kfp import dsl
+
+@dsl.pipeline(
+    name='sheum-iris-test',
+    description='sheum iris test ... '
+)
+
+def sheum_pipeline():
+    mypreprocessing = dsl.ContainerOp(
+        name="load iris data pipeline",
+        image="shilf1/sheum-iris-preprocessing:0.1",
+        arguments=[
+            '--data_path', './orig_iris.csv'
+        ],
+        file_outputs={'m_iris' : '/modified_iris.csv'}
+    )
+
+    ml = dsl.ContainerOp(
+        name="training pipeline",
+        image="shilf1/sheum-iris-train:0.1",
+        arguments=[
+            '--data', mypreprocessing.outputs['m_iris']
+        ]
+    )
+
+    ml.after(mypreprocessing)
+
+if __name__ == "__main__":
+    import kfp.compiler as compiler
+    compiler.Compiler().compile(sheum_pipeline, __file__ + ".tar.gz")
