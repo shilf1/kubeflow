@@ -1,11 +1,13 @@
 import pandas as pd
 import argparse
+import sys
 
-#import time
+import time
 
 if __name__ == "__main__":
-
-#    time.sleep(1800) 
+    print("[sheum] start python code\n")
+    print(sys.version)
+    time.sleep(1800) 
     
     argument_parser = argparse.ArgumentParser()
 
