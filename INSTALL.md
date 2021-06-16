@@ -56,6 +56,7 @@ kubectl get ingress -n istio-system
 ```
 
 -----------
+&nbsp;&nbsp;&nbsp;&nbsp;
 ## Uninstall
 
 ```
