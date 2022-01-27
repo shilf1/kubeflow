@@ -1,0 +1,46 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: sheum-iris-test-
+  annotations: {pipelines.kubeflow.org/kfp_sdk_version: 1.6.3, pipelines.kubeflow.org/pipeline_compilation_time: '2021-06-16T08:15:23.631696',
+    pipelines.kubeflow.org/pipeline_spec: '{"description": "sheum iris test ...",
+      "name": "sheum-iris-test"}'}
+  labels: {pipelines.kubeflow.org/kfp_sdk_version: 1.6.3}
+spec:
+  entrypoint: sheum-iris-test
+  templates:
+  - name: load-iris-data-pipeline
+    container:
+      args: [--data_path, ./orig_iris.csv]
+      image: shilf1/sheum-iris-preprocess:0.2
+    outputs:
+      parameters:
+      - name: load-iris-data-pipeline-m_iris
+        valueFrom: {path: /m_iris.csv}
+      artifacts:
+      - {name: load-iris-data-pipeline-m_iris, path: /m_iris.csv}
+    metadata:
+      labels: {pipelines.kubeflow.org/kfp_sdk_version: 1.6.3, pipelines.kubeflow.org/pipeline-sdk-type: kfp}
+  - name: sheum-iris-test
+    dag:
+      tasks:
+      - {name: load-iris-data-pipeline, template: load-iris-data-pipeline}
+      - name: training-pipeline
+        template: training-pipeline
+        dependencies: [load-iris-data-pipeline]
+        arguments:
+          parameters:
+          - {name: load-iris-data-pipeline-m_iris, value: '{{tasks.load-iris-data-pipeline.outputs.parameters.load-iris-data-pipeline-m_iris}}'}
+  - name: training-pipeline
+    container:
+      args: [--data, '{{inputs.parameters.load-iris-data-pipeline-m_iris}}']
+      image: shilf1/sheum-iris-train:0.1
+    inputs:
+      parameters:
+      - {name: load-iris-data-pipeline-m_iris}
+    metadata:
+      labels: {pipelines.kubeflow.org/kfp_sdk_version: 1.6.3, pipelines.kubeflow.org/pipeline-sdk-type: kfp}
+  arguments:
+    parameters: []
+  serviceAccountName: pipeline-runner
+
